@@ -195,7 +195,7 @@
     "secretName": "AzurePAWPOC1SAKey2",
     "secretnameSASurl": "AzurePAWPOC1SAS",
     "secretsKeyVaultRG": "[parameters('secretsKeyVaultRG')]",
-    "keyVaultID": "[concat('/subscriptions/', parameters('subscriptionID'), '/resourceGroups/', variables('secretsKeyVaultRG'), '/providers/Microsoft.KeyVault/vaults/', variables('secretsVaultName'))]",
+    "secretsKeyVaultID": "[concat('/subscriptions/', parameters('subscriptionID'), '/resourceGroups/', variables('secretsKeyVaultRG'), '/providers/Microsoft.KeyVault/vaults/', variables('secretsVaultName'))]",
 
     "imageOffer": "WindowsServer",
     "imagePublisher": "MicrosoftWindowsServer",
@@ -364,7 +364,7 @@
           "storageAccountKeyviaKeyvault": {
             "reference": {
               "keyVault": {
-                "id": "[variables('secretskeyVaultID')]"
+                "id": "[variables('secretsKeyVaultID')]"
               },
               "secretName": "[variables('secretName')]"
             }
