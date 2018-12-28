@@ -288,7 +288,7 @@
             "value": "[variables('aadProxyAvailabilitySetName')]"
           },
           "ouPath": {
-            "value": "[variables('ouPathT0Devices')]"
+            "value": "[variables('ouPathAdmin')]"
           },
           "diagnosticsStorageAccountName": {
             "value": "[parameters('diagnosticsStorageAccountName')]"
@@ -342,7 +342,7 @@
             "value": "[variables('aadProxyAvailabilitySetName')]"
           },
           "ouPath": {
-            "value": "[variables('ouPathT0Devices')]"
+            "value": "[variables('ouPathAdmin')]"
           },
           "diagnosticsStorageAccountName": {
             "value": "[parameters('diagnosticsStorageAccountName')]"
