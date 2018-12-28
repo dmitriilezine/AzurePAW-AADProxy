@@ -82,7 +82,7 @@
           ]
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('powershell -NoLogo -NoProfile -ExecutionPolicy Unrestricted -File ADDProxyRegistration.ps1 -aadproxytoken ',parameters('aadProxySecretToken'),' -tenantId ',parameters('aadProxyTenantId'),'')]",
+          "commandToExecute": "[concat('powershell -NoLogo -NoProfile -ExecutionPolicy Unrestricted -File AADProxyRegistration.ps1 -aadproxytoken ',parameters('aadProxySecretToken'),' -tenantId ',parameters('aadProxyTenantId'),'')]",
           "storageAccountName": "azurepaw",
           "storageAccountKey": "[parameters('storageAccountKeyviaKeyvault')]"
         }
