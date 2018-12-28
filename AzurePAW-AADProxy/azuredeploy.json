@@ -30,7 +30,7 @@
         "description": "Specify the name for the vNet to whcih this server will be deployed."
       }
     },
-    "existingVirtualNetworkResourceGroup": {
+    "existingVirtualNetworkRG": {
       "type": "string",
       "defaultValue": "Add vNet RG Name",
       "metadata": {
@@ -61,6 +61,18 @@
       "type": "string",
       "metadata": {
         "description": "The name of the RG where Secrets Key Vault is stored"
+      }
+    },
+    "aadtokenVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Key Vault where AAD Proxy Token is stored"
+      }
+    },
+    "aadtokenKeyVaultRG": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the RG where AAD Proxy Token Key Vault is stored"
       }
     },
     "VirtualMachineSize": {
@@ -144,12 +156,12 @@
     "VMSize": "[parameters('VirtualMachineSize')]",
     "OSVersion": "2016-Datacenter",
 
-    "AADProxysubnetResourceID": "[resourceId(parameters('existingVirtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('AADProxySubnetName'))]",
+    "AADProxysubnetResourceID": "[resourceId(parameters('existingVirtualNetworkRG'), 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('AADProxySubnetName'))]",
 
     "AADProxy1IpAddress": "[parameters('aadProxy1VMIPAddress')]",
     "AADProxy2IpAddress": "[parameters('aadProxy2VMIPAddress')]",
 
-    "VMTemplateURL": "[concat(variables('assetLocation'),'/data/AdminHost1VM.json')]",
+    "VMTemplateURL": "[concat(variables('assetLocation'),'/data/deployVM.json')]",
     "deployAADProxyTemplateURL": "[concat(variables('assetLocation'),'/data/deployAADProxy.json')]",
     "vmDiagnosticsTemplateURL": "[concat(variables('assetLocation'),'/data/vmDiagnostics.json')]",
     "vmAntimalwareTemplateURL": "[concat(variables('assetLocation'),'/data/deployAntimalware.json')]",
@@ -188,7 +200,7 @@
     "ouPathT0Devices": "[concat('OU=T0-Devices; OU=Tier 0; OU=Admin;', 'DC=',variables('shortDomainName'),'; DC=',variables('domainSuffix'))]",
     "ouPathAdmin": "[concat('OU=Admin;', 'DC=',variables('shortDomainName'),'; DC=',variables('domainSuffix'))]",
     "ouPathHGS": "[concat('OU=T0-HGS; OU=T0-Servers; OU=Tier 0; OU=Admin;', 'DC=',variables('shortDomainName'),'; DC=',variables('domainSuffix'))]",
-    "ouPathT0Idenity": "[concat('OU=T0-Identity; OU=T0-Servers; OU=Tier 0; OU=Admin;', 'DC=',variables('shortDomainName'),'; DC=',variables('domainSuffix'))]",
+    "ouPathT0Identity": "[concat('OU=T0-Identity; OU=T0-Servers; OU=Tier 0; OU=Admin;', 'DC=',variables('shortDomainName'),'; DC=',variables('domainSuffix'))]",
     "ouPathNone": "",
 
     "secretsVaultName": "[parameters('secretsVaultName')]",
@@ -196,6 +208,13 @@
     "secretnameSASurl": "AzurePAWPOC1SAS",
     "secretsKeyVaultRG": "[parameters('secretsKeyVaultRG')]",
     "secretsKeyVaultID": "[concat('/subscriptions/', parameters('subscriptionID'), '/resourceGroups/', variables('secretsKeyVaultRG'), '/providers/Microsoft.KeyVault/vaults/', variables('secretsVaultName'))]",
+
+    "aadtokenVaultName": "[parameters('aadtokenVaultName')]",
+    "aadtokenKeyVaultRG": "[parameters('aadtokenKeyVaultRG')]",
+    "aadProxyToken": "AADproxyToken",
+    "AADProxyTenantID": "AADproxyTenantID",
+    "aadtokenKeyVaultID": "[concat('/subscriptions/', parameters('subscriptionID'), '/resourceGroups/', variables('aadtokenKeyVaultRG'), '/providers/Microsoft.KeyVault/vaults/', variables('aadtokenVaultName'))]",
+
 
     "imageOffer": "WindowsServer",
     "imagePublisher": "MicrosoftWindowsServer",
@@ -376,6 +395,22 @@
               },
               "secretName": "[variables('secretnameSASurl')]"
             }
+          },
+          "aadProxySecretToken": {
+            "reference": {
+              "keyVault": {
+                "id": "[variables('aadtokenKeyVaultID')]"
+              },
+              "secretName": "[variables('aadProxyToken')]"
+            }
+          },
+          "aadProxyTenantId": {
+            "reference": {
+              "keyVault": {
+                "id": "[variables('aadtokenKeyVaultID')]"
+              },
+              "secretName": "[variables('AADProxyTenantID')]"
+            }
           }
         }
       }
@@ -424,6 +459,22 @@
                 "id": "[variables('secretsKeyVaultID')]"
               },
               "secretName": "[variables('secretnameSASurl')]"
+            }
+          },
+          "aadProxySecretToken": {
+            "reference": {
+              "keyVault": {
+                "id": "[variables('aadtokenKeyVaultID')]"
+              },
+              "secretName": "[variables('aadProxyToken')]"
+            }
+          },
+          "aadProxyTenantId": {
+            "reference": {
+              "keyVault": {
+                "id": "[variables('aadtokenKeyVaultID')]"
+              },
+              "secretName": "[variables('AADProxyTenantID')]"
             }
           }
         }
