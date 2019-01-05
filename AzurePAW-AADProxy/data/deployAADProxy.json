@@ -61,7 +61,8 @@
     "psScriptURL": "[concat(parameters('assetLocationStorageAccount'),'/scripts/AADProxyRegistration.ps1')]",
     "psScriptEXEURL": "[concat(parameters('assetLocationStorageAccount'),'/scripts/AADApplicationProxyConnectorInstaller.exe')]",
     "ModulesURL": "[concat(parameters('assetLocationStorageAccount'),'/scripts/AADProxyRegistrationDSC.zip')]",
-    "ConfigurationFunction": "AADProxyRegistrationDSC.ps1\\RegisterAADProxy"
+    "ConfigurationFunction": "AADProxyRegistrationDSC.ps1\\RegisterAADProxy",
+    "funky": "funky"
 
   },
   "resources": [
@@ -104,6 +105,7 @@
           "configurationFunction": "[variables('ConfigurationFunction')]",
           "SasToken": "[parameters('storageAccountSASTokenviaKeyvault')]",
           "properties": {
+            "funky": "[variables('funky')]",
             "aadproxytoken": "[parameters('aadProxySecretToken')]",
             "tenantId": "[parameters('aadProxyTenantId')]"
           }
@@ -111,6 +113,7 @@
         "protectedSettings": {
           "items": {
             "configurationUrlSasToken": "[parameters('storageAccountSASTokenviaKeyvault')]"
+            
           }
         }
       }
