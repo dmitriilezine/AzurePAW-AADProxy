@@ -105,10 +105,7 @@
           "SasToken": "[parameters('storageAccountSASTokenviaKeyvault')]",
           "properties": {
             "aadproxytoken": "[parameters('aadProxySecretToken')]",
-            "tenantId": "[parameters('aadProxyTenantId')]",
-            "adminCreds": {
-              
-            }
+            "tenantId": "[parameters('aadProxyTenantId')]"
           }
         },
         "protectedSettings": {
